@@ -1,0 +1,19 @@
+
+{
+  "compilerOptions": {
+    "target": "ES2020",                     // Target ES2020 features
+    "module": "ESNext",                    // Use ESNext for module resolution (supports import/export)
+    "lib": ["DOM", "DOM.Iterable", "ES2020"], // Include DOM and ES2020 libraries
+    "jsx": "react",                        // Enable JSX syntax support
+    "strict": true,                        // Enable all strict type-checking options
+    "esModuleInterop": true,               // Enables interoperability with CommonJS modules
+    "skipLibCheck": true,                  // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in imports
+    "moduleResolution": "Node",           // Resolve modules like Node.js
+    "resolveJsonModule": true,            // Enable importing .json files
+    "isolatedModules": true,              // Required for `react-scripts`
+    "noEmit": true                         // Don't emit output files (handled by Webpack)
+  },
+  "include": ["src","./declarations.d.ts"],                     // Include the source directory
+  "exclude": ["node_modules", "dist"]     // Exclude node_modules and build outputs
+}
