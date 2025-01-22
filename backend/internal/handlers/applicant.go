@@ -38,7 +38,7 @@ func GetApplicants(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         http.Error(w, "Applicant not found", http.StatusNotFound)
         return
-    }
+    }    
 
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(applicants)
@@ -52,6 +52,7 @@ func UpdateApplicant(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Invalid request payload", http.StatusBadRequest)
         return
     }
+    
 
     updatedApplicant.ID = id
     err := db.UpdateApplicant(id, updatedApplicant) 
@@ -75,3 +76,12 @@ func DeleteApplicant(w http.ResponseWriter, r *http.Request) {
    
     w.WriteHeader(http.StatusNoContent)
 }
+
+// Helper function to format a date as dd-mm-yyyy
+/*
+func formatDate(date *time.Time) string {
+    if date == nil {
+        return ""
+    }
+    return date.Format("02-01-2006") // Format as dd-mm-yyyy
+}*/

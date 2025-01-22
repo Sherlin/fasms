@@ -3,7 +3,7 @@ import { Applicant } from "../services/api";
 
 interface ApplicantTableProps {
     applicants: Applicant[];
-    onEdit: (applicant: Applicant) => void;
+    onEdit: (applicant: any) => void;
     onDelete: (id: string) => void;
 }
 

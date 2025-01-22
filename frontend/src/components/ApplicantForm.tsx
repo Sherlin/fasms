@@ -31,6 +31,17 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ initialData, onSubmit, on
         onSubmit({ nric: nric ,name :name ,employment_status: employmentStatus, sex, date_of_birth: dateOfBirth, household });
     };
 
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const [year, month, day] = e.target.value.split("-");
+        setDateOfBirth(`${day}-${month}-${year}`); // Convert to dd-MM-yyyy
+    };
+
+    const getInputDateValue = () => {
+        if (!dateOfBirth) return ""; // Handle empty state
+        const [day, month, year] = dateOfBirth.split("-");
+        return `${year}-${month}-${day}`; // Convert to yyyy-MM-dd for the input
+    };
+
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -50,14 +61,22 @@ const ApplicantForm: React.FC<ApplicantFormProps> = ({ initialData, onSubmit, on
                 <label>Sex: </label>
                 <input value={sex} onChange={(e) => setSex(e.target.value)} required />
             </div>
+
             <div>
                 <label>Date of Birth: </label>
-                <input type="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} required />
-            </div>
+                <input
+                    type="date"
+                    value={getInputDateValue()} // Format for the calendar
+                    onChange={handleDateChange}
+                    required
+                />
+            </div>      
+            {/*      
             <div>
                 <label>Household: </label>
                 <input value={household} onChange={(e) => setHousehold(e.target.value)} required />
             </div>
+            */}
             <button type="submit">Submit</button>
             <button type="button" onClick={onCancel}>Cancel</button>
         </form>

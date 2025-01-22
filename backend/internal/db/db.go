@@ -4,7 +4,7 @@ import (
     "database/sql"
     log "github.com/sirupsen/logrus"
     "time"
-	"fasms/internal/config"
+	"fasms/internal/utilities"
 
     _ "github.com/go-sql-driver/mysql" // MySQL driver
 )
@@ -12,7 +12,10 @@ var DB *sql.DB
 
 func NewDB()  error {
     // Open a connection
-	dsn := config.GetDSN()
+	dsn, err := utilities.GetDatabaseUrl()
+    if err != nil {
+        log.Fatal("Unable to get dsn", err)
+    } 
     db, err := sql.Open("mysql", dsn)
     if err != nil {
         return  err

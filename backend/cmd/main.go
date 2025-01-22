@@ -6,18 +6,26 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+	"fmt"
 
 	"github.com/sirupsen/logrus"
 	"fasms/internal/config"
 	"fasms/internal/server"
+	
 
 )
 
 func main() {
 	// Set up logrus
 	logger := logrus.New()
+	    // open a file
+	f, err := os.OpenFile("fasms.log", os.O_APPEND | os.O_CREATE | os.O_RDWR, 0666)
+	if err != nil {
+		fmt.Printf("error opening file: %v", err)
+	}
+
 	logger.SetFormatter(&logrus.JSONFormatter{})
-	logger.SetOutput(os.Stdout)
+	logger.SetOutput(f)
 	logger.SetLevel(logrus.InfoLevel)
 
 	// Load configuration

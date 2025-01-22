@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+    //"encoding/json"
+	//log "github.com/sirupsen/logrus"
+)
 
 type Applicant struct {
     ID              string    `json:"id" db:"id"`
@@ -8,7 +12,7 @@ type Applicant struct {
     Name            string    `json:"name" db:"name"`
     EmploymentStatus *string   `json:"employment_status,omitempty" db:"employment_status"`
     Sex             string    `json:"sex" db:"sex"`
-    DateOfBirth     time.Time `json:"date_of_birth" db:"date_of_birth"`
+    DateOfBirth     string `json:"date_of_birth" db:"date_of_birth"`
     Household       *string   `json:"household,omitempty" db:"household"`
 }
 
@@ -43,3 +47,4 @@ type Scheme struct {
     Criteria *string `json:"criteria,omitempty" db:"criteria"`
     Benefits *string `json:"benefits,omitempty" db:"benefits"`
 }
+

@@ -10,7 +10,7 @@ func CreateApplicant(newApplicant models.Applicant) error {
 	// Prepare the SQL query to insert a new applicant
 	query := `
 		INSERT INTO applicants (id, nric, name, employment_status, sex, date_of_birth, household) 
-		VALUES (?, ?, ?, ?, ?, ?)`
+		VALUES (?, ?, ?, ?, ?, ?, ?)`
 
 	// Execute the query with the provided values
 	_, err := DB.Exec(query, newApplicant.ID, newApplicant.NRIC, newApplicant.Name, newApplicant.EmploymentStatus, 
