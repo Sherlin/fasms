@@ -1,0 +1,23 @@
+version: 0.0
+os: linux
+files:
+  - source: backend/             # Source folder for the backend
+    destination: /home/ec2-user/backend  # Target folder on the EC2 instance
+  - source: frontend/            # Source folder for the frontend
+    destination: /home/ec2-user/frontend # Target folder on the EC2 instance
+
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies.sh # Install dependencies script
+      timeout: 300
+      runas: root
+
+  AfterInstall:
+    - location: scripts/setup_services.sh       # Set up systemd services
+      timeout: 300
+      runas: root
+
+  ApplicationStart:
+    - location: scripts/start_services.sh       # Start the services
+      timeout: 300
+      runas: root
