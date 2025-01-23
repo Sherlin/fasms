@@ -6,8 +6,8 @@ import (
 )
 
 func CreateScheme(newScheme models.Scheme) error {
-    query := `INSERT INTO schemes (id, name, criteria, benefits) VALUES (?, ?, ?, ?)`
-    _, err := DB.Exec(query, newScheme.ID, newScheme.Name, newScheme.Criteria, newScheme.Benefits)
+    query := `INSERT INTO schemes (id, name, criteria) VALUES (?, ?, ?)`
+    _, err := DB.Exec(query, newScheme.ID, newScheme.Name, newScheme.Criteria)
     if err != nil {
         log.Error("Error inserting scheme:", err)
         return err
@@ -17,7 +17,7 @@ func CreateScheme(newScheme models.Scheme) error {
 }
 
 func GetSchemes() ([]models.Scheme, error) {
-    query := `SELECT id, name, criteria, benefits FROM schemes`
+    query := `SELECT id, name, criteria FROM schemes`
     rows, err := DB.Query(query)
     if err != nil {
         log.Error("Error executing query:", err)
@@ -28,7 +28,7 @@ func GetSchemes() ([]models.Scheme, error) {
     var schemes []models.Scheme
     for rows.Next() {
         var scheme models.Scheme
-        if err := rows.Scan(&scheme.ID, &scheme.Name, &scheme.Criteria, &scheme.Benefits); err != nil {
+        if err := rows.Scan(&scheme.ID, &scheme.Name, &scheme.Criteria); err != nil {
             log.Error("Error scanning row:", err)
             return nil, err
         }
@@ -49,7 +49,7 @@ func GetSchemesForApplicant() ([]models.Scheme, error) {
     var schemes []models.Scheme
     for rows.Next() {
         var scheme models.Scheme
-        if err := rows.Scan(&scheme.ID, &scheme.Name, &scheme.Criteria, &scheme.Benefits); err != nil {
+        if err := rows.Scan(&scheme.ID, &scheme.Name, &scheme.Criteria); err != nil {
             log.Error("Error scanning row:", err)
             return nil, err
         }
@@ -59,8 +59,8 @@ func GetSchemesForApplicant() ([]models.Scheme, error) {
 }
 
 func UpdateScheme(id string, updatedScheme models.Scheme) error {
-    query := `UPDATE schemes SET name = ?, criteria = ?, benefits = ? WHERE id = ?`
-    _, err := DB.Exec(query, updatedScheme.Name, updatedScheme.Criteria, updatedScheme.Benefits, id)
+    query := `UPDATE schemes SET name = ?, criteria = ? WHERE id = ?`
+    _, err := DB.Exec(query, updatedScheme.Name, updatedScheme.Criteria, id)
     if err != nil {
         log.Error("Error updating scheme:", err)
         return err

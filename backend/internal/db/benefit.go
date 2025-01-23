@@ -36,6 +36,26 @@ func GetBenefits() ([]models.Benefit, error) {
     }
     return benefits, nil
 }
+func GetBenefitsByScheme(sheme_id string) ([]models.Benefit, error) {
+    query := `SELECT id, name, amount, scheme_id FROM benefits where scheme_id = ?`
+    rows, err := DB.Query(query,sheme_id)
+    if err != nil {
+        log.Error("Error executing query:", err)
+        return nil, err
+    }
+    defer rows.Close()
+
+    var benefits []models.Benefit
+    for rows.Next() {
+        var benefit models.Benefit
+        if err := rows.Scan(&benefit.ID, &benefit.Name, &benefit.Amount, &benefit.SchemeID); err != nil {
+            log.Error("Error scanning row:", err)
+            return nil, err
+        }
+        benefits = append(benefits, benefit)
+    }
+    return benefits, nil
+}
 
 func UpdateBenefit(id string, updatedBenefit models.Benefit) error {
     query := `UPDATE benefits SET name = ?, amount = ?, scheme_id = ? WHERE id = ?`

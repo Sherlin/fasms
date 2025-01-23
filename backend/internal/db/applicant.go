@@ -92,7 +92,7 @@ func GetApplicantByID(applicant_id string ) (*models.Applicant,error){
     query := "SELECT id, nric, name, employment_status, sex, date_of_birth, household FROM applicants where id = ?"
     row := DB.QueryRow(query, applicant_id)
 
-	var applicant *models.Applicant
+	var applicant models.Applicant
 
 	err := row.Scan(&applicant.ID,&applicant.NRIC, &applicant.Name, &applicant.EmploymentStatus, &applicant.Sex, &applicant.DateOfBirth, &applicant.Household)
 	if err != nil {
@@ -101,7 +101,7 @@ func GetApplicantByID(applicant_id string ) (*models.Applicant,error){
 	}
 
 
-	return applicant, nil
+	return &applicant, nil
 
 }
 func UpdateApplicant(id string, updatedApplicant models.Applicant) error {

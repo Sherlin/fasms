@@ -43,7 +43,7 @@ func NewServer(cfg *config.Config) *Server {
     router.HandleFunc("/api/applicants/{id}", handlers.DeleteApplicant).Methods("DELETE")
     router.HandleFunc("/api/schemes", handlers.CreateScheme).Methods("POST")
     router.HandleFunc("/api/schemes", handlers.GetSchemes).Methods("GET")
-	router.HandleFunc("/api/schemes/eligible?applicant={id}", handlers.GetSchemesForApplicant).Methods("GET")
+	router.HandleFunc("/api/schemes/eligible", handlers.GetSchemesForApplicant).Methods("GET")
     router.HandleFunc("/api/schemes/{id}", handlers.UpdateScheme).Methods("PUT")
     router.HandleFunc("/api/schemes/{id}", handlers.DeleteScheme).Methods("DELETE")
     router.HandleFunc("/api/applications", handlers.CreateApplication).Methods("POST")

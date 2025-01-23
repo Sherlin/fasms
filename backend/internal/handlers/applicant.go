@@ -63,18 +63,18 @@ func GetApplicants(w http.ResponseWriter, r *http.Request) {
 }
 func GetApplicantByID(w http.ResponseWriter, r *http.Request) {
     id := mux.Vars(r)["id"]
-    applicant, _:= db.GetApplicantByID(id)
-    if applicant == nil {
+    applicant, err:= db.GetApplicantByID(id)
+    if err != nil {
         http.Error(w, "Applicant not found", http.StatusNotFound)
         return
     }    
-    /*
-    applicant.Dependents, err = db.GetDependentsOfApplicant(applicant.ID)
-    if err != nil {
-        http.Error(w, "Dependent of Applicant not found", http.StatusNotFound)
-        return
-    } 
-    */   
+    if (*applicant.Household != ""){
+        applicant.Dependents, err = db.GetDependentsOfApplicant(applicant.ID)
+        if err != nil {
+            http.Error(w, "Dependent of Applicant not found", http.StatusNotFound)
+            return
+        } 
+    }
     
 
     w.Header().Set("Content-Type", "application/json")

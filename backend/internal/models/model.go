@@ -10,6 +10,7 @@ type Applicant struct {
     DateOfBirth     string `json:"date_of_birth" db:"date_of_birth"`
     Household       *string   `json:"household,omitempty" db:"household"`
     Dependents      []Dependent `json:"dependents,omitempty"`
+    Benefit       []Benefit `json:"benefits,omitempty" db:"benefits"`
 }
 
 type Application struct {
@@ -41,6 +42,6 @@ type Scheme struct {
     ID       string  `json:"id" db:"id"`
     Name     string  `json:"name" db:"name"`
     Criteria *string `json:"criteria,omitempty" db:"criteria"`
-    Benefits *string `json:"benefits,omitempty" db:"benefits"`
+    Benefits []Benefit `json:"benefits,omitempty" db:"benefits"`
 }
 
