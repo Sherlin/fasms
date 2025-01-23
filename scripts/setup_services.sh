@@ -2,13 +2,13 @@
 
 # Install frontend dependencies
 cd /home/ec2-user/frontend
-npm install --legacy-peer-deps
-npm run build
+sudo npm install --legacy-peer-deps
+sudo npm run build
 
 
 # Ensure backend dependencies are ready (Go modules)
 cd /home/ec2-user/backend
-go mod tidy
+sudo go mod tidy
 
 # Create backend systemd service
 cat <<EOF | sudo tee /etc/systemd/system/backend.service
