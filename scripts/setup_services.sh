@@ -2,7 +2,7 @@
 
 # Install frontend dependencies
 cd /home/ec2-user/frontend
-npm install
+npm install --legacy-peer-deps
 npm run build
 
 
