@@ -55,7 +55,55 @@ func GetApplicants() ([]models.Applicant,error){
 	return applicants, nil
 
 }
+func GetApplicantsMin() ([]models.Applicant,error){
+ 
 
+    query := "SELECT id, nric, name, employment_status, sex, date_of_birth, household FROM applicants"
+    rows, err := DB.Query(query)
+	if err != nil {
+		log.Error("Error executing query:", err)
+		return nil, err
+	}
+	defer rows.Close() 
+
+	var applicants []models.Applicant
+	for rows.Next() {
+		var applicant models.Applicant
+
+		if err := rows.Scan(&applicant.ID,&applicant.NRIC, &applicant.Name, &applicant.EmploymentStatus, &applicant.Sex, &applicant.DateOfBirth, &applicant.Household); err != nil {
+			log.Info("Error scanning row:", err)
+			return nil, err
+		}
+		applicants = append(applicants, applicant) 
+	}
+
+	// Check for errors from iterating over rows
+	if err := rows.Err(); err != nil {
+		log.Error("Error during row iteration:", err)
+		return nil, err
+	}
+
+	return applicants, nil
+
+}
+func GetApplicantByID(applicant_id string ) (*models.Applicant,error){
+ 
+
+    query := "SELECT id, nric, name, employment_status, sex, date_of_birth, household FROM applicants where id = ?"
+    row := DB.QueryRow(query, applicant_id)
+
+	var applicant *models.Applicant
+
+	err := row.Scan(&applicant.ID,&applicant.NRIC, &applicant.Name, &applicant.EmploymentStatus, &applicant.Sex, &applicant.DateOfBirth, &applicant.Household)
+	if err != nil {
+		log.Info("Error scanning row:", err)
+		return nil, err
+	}
+
+
+	return applicant, nil
+
+}
 func UpdateApplicant(id string, updatedApplicant models.Applicant) error {
 	// Prepare the SQL query to update the applicant by ID
 	query := `

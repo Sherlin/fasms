@@ -38,9 +38,19 @@ func NewServer(cfg *config.Config) *Server {
 	router.HandleFunc("/health", handlers.HealthCheckHandler)
     router.HandleFunc("/api/applicants", handlers.CreateApplicant).Methods("POST")
     router.HandleFunc("/api/applicants", handlers.GetApplicants).Methods("GET")
+	router.HandleFunc("/api/applicants/{id}", handlers.GetApplicantByID).Methods("GET")
     router.HandleFunc("/api/applicants/{id}", handlers.UpdateApplicant).Methods("PUT")
     router.HandleFunc("/api/applicants/{id}", handlers.DeleteApplicant).Methods("DELETE")
-
+    router.HandleFunc("/api/schemes", handlers.CreateScheme).Methods("POST")
+    router.HandleFunc("/api/schemes", handlers.GetSchemes).Methods("GET")
+	router.HandleFunc("/api/schemes/eligible?applicant={id}", handlers.GetSchemesForApplicant).Methods("GET")
+    router.HandleFunc("/api/schemes/{id}", handlers.UpdateScheme).Methods("PUT")
+    router.HandleFunc("/api/schemes/{id}", handlers.DeleteScheme).Methods("DELETE")
+    router.HandleFunc("/api/applications", handlers.CreateApplication).Methods("POST")
+    router.HandleFunc("/api/applications", handlers.GetApplications).Methods("GET")
+    router.HandleFunc("/api/applications/{id}", handlers.UpdateApplication).Methods("PUT")
+    router.HandleFunc("/api/applications/{id}", handlers.DeleteApplication).Methods("DELETE")
+	
 	// Create HTTP server
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.Port),

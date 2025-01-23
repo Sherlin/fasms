@@ -32,9 +32,9 @@ func CreateApplicant(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetApplicant handles retrieving all applicants.
-func GetApplicants(w http.ResponseWriter, r *http.Request) {
+func GetApplicantsMin(w http.ResponseWriter, r *http.Request) {
 
-    applicants, err:= db.GetApplicants()
+    applicants, err:= db.GetApplicantsMin()
     if err != nil {
         http.Error(w, "Applicant not found", http.StatusNotFound)
         return
@@ -43,7 +43,43 @@ func GetApplicants(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(applicants)
 }
+func GetApplicants(w http.ResponseWriter, r *http.Request) {
 
+    applicants, err:= db.GetApplicants()
+    if err != nil {
+        http.Error(w, "Applicant not found", http.StatusNotFound)
+        return
+    }    
+    for i:=0;i <len(applicants);i++{
+        applicants[i].Dependents, err = db.GetDependentsOfApplicant(applicants[i].ID)
+        if err != nil {
+            http.Error(w, "Dependent of Applicant not found", http.StatusNotFound)
+            return
+        }    
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(applicants)
+}
+func GetApplicantByID(w http.ResponseWriter, r *http.Request) {
+    id := mux.Vars(r)["id"]
+    applicant, _:= db.GetApplicantByID(id)
+    if applicant == nil {
+        http.Error(w, "Applicant not found", http.StatusNotFound)
+        return
+    }    
+    /*
+    applicant.Dependents, err = db.GetDependentsOfApplicant(applicant.ID)
+    if err != nil {
+        http.Error(w, "Dependent of Applicant not found", http.StatusNotFound)
+        return
+    } 
+    */   
+    
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(&applicant)
+}
 // UpdateApplicant handles updating an existing applicant.
 func UpdateApplicant(w http.ResponseWriter, r *http.Request) {
     id := mux.Vars(r)["id"]
@@ -77,11 +113,3 @@ func DeleteApplicant(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusNoContent)
 }
 
-// Helper function to format a date as dd-mm-yyyy
-/*
-func formatDate(date *time.Time) string {
-    if date == nil {
-        return ""
-    }
-    return date.Format("02-01-2006") // Format as dd-mm-yyyy
-}*/

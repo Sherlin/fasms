@@ -1,10 +1,5 @@
 package models
 
-import (
-	"time"
-    //"encoding/json"
-	//log "github.com/sirupsen/logrus"
-)
 
 type Applicant struct {
     ID              string    `json:"id" db:"id"`
@@ -14,6 +9,7 @@ type Applicant struct {
     Sex             string    `json:"sex" db:"sex"`
     DateOfBirth     string `json:"date_of_birth" db:"date_of_birth"`
     Household       *string   `json:"household,omitempty" db:"household"`
+    Dependents      []Dependent `json:"dependents,omitempty"`
 }
 
 type Application struct {
@@ -22,7 +18,7 @@ type Application struct {
     ApplicantID   string     `json:"applicant_id" db:"applicant_id"`
     Status        string     `json:"status" db:"status"`
     Disbursed     *string    `json:"disbursed,omitempty" db:"disbursed"`
-    DisbursedDate *time.Time `json:"disbursed_date,omitempty" db:"disbursed_date"`
+    DisbursedDate string `json:"disbursed_date,omitempty" db:"disbursed_date"`
 }
 
 type Benefit struct {
