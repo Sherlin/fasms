@@ -19,7 +19,7 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/go run /home/ec2-user/backend/cmd/main.go
 Restart=always
-User=ec2-user
+User=root
 WorkingDirectory=/home/ec2-user/backend
 
 [Install]
@@ -35,7 +35,7 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/npm start
 Restart=always
-User=ec2-user
+User=root
 WorkingDirectory=/home/ec2-user/frontend
 Environment=PORT=3000
 
