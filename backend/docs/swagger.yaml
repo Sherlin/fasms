@@ -1,0 +1,463 @@
+definitions:
+  handlers.HealthResponse:
+    properties:
+      go:
+        type: string
+      status:
+        type: string
+    type: object
+  models.Applicant:
+    properties:
+      date_of_birth:
+        type: string
+      dependents:
+        items:
+          $ref: '#/definitions/models.Dependent'
+        type: array
+      eligible_schemes:
+        items:
+          $ref: '#/definitions/models.Scheme'
+        type: array
+      employment_status:
+        type: string
+      household:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      nric:
+        type: string
+      sex:
+        type: string
+    type: object
+  models.Application:
+    properties:
+      applicant_id:
+        type: string
+      date_of_application:
+        type: string
+      disbursed:
+        type: string
+      disbursed_date:
+        type: string
+      id:
+        type: string
+      scheme_id:
+        type: string
+      status:
+        type: string
+    type: object
+  models.Benefit:
+    properties:
+      amount:
+        type: number
+      id:
+        type: string
+      name:
+        type: string
+      scheme_id:
+        type: string
+    type: object
+  models.Dependent:
+    properties:
+      date_of_birth:
+        type: string
+      employment_status:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      parent_id:
+        type: string
+      relation:
+        type: string
+      sex:
+        type: string
+    type: object
+  models.Scheme:
+    properties:
+      benefits:
+        items:
+          $ref: '#/definitions/models.Benefit'
+        type: array
+      criteria:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/applicants:
+    get:
+      description: Retrieve all applicants with their dependents
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Applicant'
+            type: array
+        "404":
+          description: Applicants not found
+          schema:
+            type: string
+      summary: Get detailed list of applicants
+      tags:
+      - applicants
+    post:
+      consumes:
+      - application/json
+      description: Add a new applicant to the database
+      parameters:
+      - description: Applicant data
+        in: body
+        name: applicant
+        required: true
+        schema:
+          $ref: '#/definitions/models.Applicant'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Applicant'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Insertion error
+          schema:
+            type: string
+      summary: Create a new applicant
+      tags:
+      - applicants
+  /api/applicants/{id}:
+    delete:
+      description: Delete an applicant by their unique ID
+      parameters:
+      - description: Applicant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Applicant not found
+          schema:
+            type: string
+      summary: Delete an applicant
+      tags:
+      - applicants
+    get:
+      description: Retrieve an applicant by their unique ID
+      parameters:
+      - description: Applicant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Applicant'
+        "404":
+          description: Applicant not found
+          schema:
+            type: string
+      summary: Get applicant by ID
+      tags:
+      - applicants
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing applicant
+      parameters:
+      - description: Applicant ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated applicant data
+        in: body
+        name: applicant
+        required: true
+        schema:
+          $ref: '#/definitions/models.Applicant'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Applicant'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "404":
+          description: Applicant not found
+          schema:
+            type: string
+      summary: Update an applicant
+      tags:
+      - applicants
+  /api/applications:
+    get:
+      description: Retrieve all applications from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Application'
+            type: array
+        "500":
+          description: Applications not found
+          schema:
+            type: string
+      summary: Get all applications
+      tags:
+      - applications
+    post:
+      consumes:
+      - application/json
+      description: Add a new application to the database
+      parameters:
+      - description: Application data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/models.Application'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Application'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Insertion error
+          schema:
+            type: string
+      summary: Create a new application
+      tags:
+      - applications
+  /api/applications/{id}:
+    delete:
+      description: Delete an application by its unique ID
+      parameters:
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Application not found
+          schema:
+            type: string
+      summary: Delete an application
+      tags:
+      - applications
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing application
+      parameters:
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated application data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/models.Application'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Application'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "404":
+          description: Application not found
+          schema:
+            type: string
+      summary: Update an application
+      tags:
+      - applications
+  /api/schemes:
+    get:
+      description: Retrieve all schemes with benefits
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Scheme'
+            type: array
+        "500":
+          description: Schemes not found
+          schema:
+            type: string
+      summary: Get all schemes
+      tags:
+      - schemes
+    post:
+      consumes:
+      - application/json
+      description: Create a new scheme and store it in the database
+      parameters:
+      - description: Scheme
+        in: body
+        name: scheme
+        required: true
+        schema:
+          $ref: '#/definitions/models.Scheme'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Scheme'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Insertion error
+          schema:
+            type: string
+      summary: Create a new scheme
+      tags:
+      - schemes
+  /api/schemes/{id}:
+    delete:
+      description: Delete an existing scheme by its ID
+      parameters:
+      - description: Scheme ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "404":
+          description: Scheme not found
+          schema:
+            type: string
+      summary: Delete a scheme by its ID
+      tags:
+      - schemes
+    put:
+      consumes:
+      - application/json
+      description: Update the scheme details by its ID
+      parameters:
+      - description: Scheme ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Scheme
+        in: body
+        name: scheme
+        required: true
+        schema:
+          $ref: '#/definitions/models.Scheme'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Scheme'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "404":
+          description: Scheme not found
+          schema:
+            type: string
+      summary: Update an existing scheme
+      tags:
+      - schemes
+  /api/schemes/eligible:
+    get:
+      description: Retrieve schemes for a specific applicant based on their employment
+        status and number of school-going kids
+      parameters:
+      - description: Applicant ID
+        in: query
+        name: applicant
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Applicant'
+        "404":
+          description: Applicant not found
+          schema:
+            type: string
+        "500":
+          description: Schemes not found
+          schema:
+            type: string
+      summary: Get schemes for an applicant
+      tags:
+      - schemes
+  /health:
+    get:
+      description: Check the health of the server
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.HealthResponse'
+      summary: Health check
+      tags:
+      - health
+swagger: "2.0"

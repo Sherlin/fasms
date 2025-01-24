@@ -12,7 +12,13 @@ type HealthResponse struct {
 	Go string `json:"go"`
 }
 
-// HealthCheckHandler handles the health check endpoint.
+// HealthCheckHandler godoc
+// @Summary Health check
+// @Description Check the health of the server
+// @Tags health
+// @Produce json
+// @Success 200 {object} HealthResponse
+// @Router /health [get]
 func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	response := HealthResponse{Status: "OK", Go: runtime.Version()}
 	w.Header().Set("Content-Type", "application/json")

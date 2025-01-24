@@ -11,6 +11,7 @@ import (
 	"fasms/internal/config"
 	"fasms/internal/db"
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // Server represents the HTTP server.
@@ -50,6 +51,7 @@ func NewServer(cfg *config.Config) *Server {
     router.HandleFunc("/api/applications", handlers.GetApplications).Methods("GET")
     router.HandleFunc("/api/applications/{id}", handlers.UpdateApplication).Methods("PUT")
     router.HandleFunc("/api/applications/{id}", handlers.DeleteApplication).Methods("DELETE")
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 	
 	// Create HTTP server
 	httpServer := &http.Server{

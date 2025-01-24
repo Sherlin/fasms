@@ -7,10 +7,12 @@ import (
 	"syscall"
 	"time"
 	"fmt"
+	//_ "fasms/internal/handlers"
 
 	"github.com/sirupsen/logrus"
 	"fasms/internal/config"
 	"fasms/internal/server"
+	_ "fasms/docs"
 	
 
 )

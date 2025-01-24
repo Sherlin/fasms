@@ -6,8 +6,8 @@ import (
 
 )
 func CreateApplication(newApplication models.Application) error {
-    query := `INSERT INTO applications (id, scheme_id, applicant_id, status, disbursed, disbursed_date) VALUES (?, ?, ?, ?, ?, ?)`
-    _, err := DB.Exec(query, newApplication.ID, newApplication.SchemeID, newApplication.ApplicantID, newApplication.Status, newApplication.Disbursed, newApplication.DisbursedDate)
+    query := `INSERT INTO applications (id, date_of_application, scheme_id, applicant_id, status, disbursed, disbursed_date) VALUES (?, ?, ?, ?, ?, ?,?)`
+    _, err := DB.Exec(query, newApplication.ID, newApplication.DateOfApplication, newApplication.SchemeID, newApplication.ApplicantID, newApplication.Status, newApplication.Disbursed, newApplication.DisbursedDate)
     if err != nil {
         log.Error("Error inserting application:", err)
         return err
@@ -17,7 +17,7 @@ func CreateApplication(newApplication models.Application) error {
 }
 
 func GetApplications() ([]models.Application, error) {
-    query := `SELECT id, scheme_id, applicant_id, status, disbursed, disbursed_date FROM applications`
+    query := `SELECT id, date_of_application, scheme_id, applicant_id, status, disbursed, disbursed_date FROM applications`
     rows, err := DB.Query(query)
     if err != nil {
         log.Error("Error executing query:", err)
@@ -28,7 +28,7 @@ func GetApplications() ([]models.Application, error) {
     var applications []models.Application
     for rows.Next() {
         var application models.Application
-        if err := rows.Scan(&application.ID, &application.SchemeID, &application.ApplicantID, &application.Status, &application.Disbursed, &application.DisbursedDate); err != nil {
+        if err := rows.Scan(&application.ID, &application.DateOfApplication, &application.SchemeID, &application.ApplicantID, &application.Status, &application.Disbursed, &application.DisbursedDate); err != nil {
             log.Error("Error scanning row:", err)
             return nil, err
         }
