@@ -1,6 +1,4 @@
-# fasms
-
-# Project Name
+# Financial Assistance Scheme Management System
 
 This project consists of a backend HTTP server written in Go (Golang) and a frontend application built with ReactJS. The frontend is still a work in progress, while the backend API is fully functional.
 
