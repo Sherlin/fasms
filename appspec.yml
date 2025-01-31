@@ -14,7 +14,7 @@ hooks:
 
   AfterInstall:
     - location: scripts/setup_services.sh       # Set up systemd services
-      timeout: 1200
+      timeout: 2400
       runas: root
 
   ApplicationStart:
