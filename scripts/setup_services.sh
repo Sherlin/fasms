@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # Install frontend dependencies
+sudo chown -R ec2-user: /home/ec2-user/frontend
 cd /home/ec2-user/frontend
-sudo npm install --legacy-peer-deps
-sudo npm run build
+npm install --legacy-peer-deps
+npm run build
 
-
+sudo chown -R ec2-user: /home/ec2-user/backend
 # Ensure backend dependencies are ready (Go modules)
 cd /home/ec2-user/backend
-sudo go mod tidy
+go mod tidy
 
 # Create backend systemd service
 cat <<EOF | sudo tee /etc/systemd/system/backend.service
@@ -19,7 +20,7 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/go run /home/ec2-user/backend/cmd/main.go
 Restart=always
-User=root
+User=ec2-user
 WorkingDirectory=/home/ec2-user/backend
 
 [Install]
@@ -35,7 +36,7 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/npm start
 Restart=always
-User=root
+User=ec2-user
 WorkingDirectory=/home/ec2-user/frontend
 Environment=PORT=3000
 
