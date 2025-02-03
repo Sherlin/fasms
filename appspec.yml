@@ -5,7 +5,8 @@ files:
     destination: /home/ec2-user/backend  # Target folder on the EC2 instance
   - source: frontend/            # Source folder for the frontend
     destination: /home/ec2-user/frontend # Target folder on the EC2 instance
-
+  - source: scripts/react-app.conf            # Source folder for the frontend
+    destination: /etc/nginx/conf.d # Target folder on the EC2 instance
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies.sh # Install dependencies script

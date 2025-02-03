@@ -3,5 +3,6 @@
 #sudo apt-get update -y
 mkdir -p /home/ec2-user/frontend
 mkdir -p /home/ec2-user/backend
-sudo yum install -y nodejs npm golang
+sudo yum install -y nodejs npm golang nginx
+cp -r /home/ec2-user/frontend/build /var/www/html/
 

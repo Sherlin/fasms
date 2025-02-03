@@ -7,6 +7,7 @@ sudo chown -R ec2-user: /home/ec2-user/frontend
 #npm run build
 
 sudo chown -R ec2-user: /home/ec2-user/backend
+sudo chmod 0755 /home/ec2-user/backend/fasms_exe
 # Ensure backend dependencies are ready (Go modules)
 cd /home/ec2-user/backend
 go mod tidy
@@ -27,24 +28,10 @@ WorkingDirectory=/home/ec2-user/backend
 WantedBy=multi-user.target
 EOF
 
-# Create frontend systemd service
-cat <<EOF | sudo tee /etc/systemd/system/frontend.service
-[Unit]
-Description=React Frontend Application
-After=network.target
 
-[Service]
-ExecStart=/usr/bin/npm start
-Restart=always
-User=ec2-user
-WorkingDirectory=/home/ec2-user/frontend
-Environment=PORT=3000
-
-[Install]
-WantedBy=multi-user.target
-EOF
 
 # Reload systemd to recognize new services
 sudo systemctl daemon-reload
 sudo systemctl enable backend.service
-sudo systemctl enable frontend.service
+sudo systemctl restart nginx
+#sudo systemctl enable frontend.service
