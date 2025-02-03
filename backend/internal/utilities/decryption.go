@@ -36,7 +36,7 @@ func GetDatabaseUrl()( string, error) {
 
 	key:= os.Getenv("PASSKEY")
 	// Read encrypted text from file
-	file, err := os.Open("fasms")
+	file, err := os.Open("/home/ec2-user/backend/fasms")
 	if err != nil {
 		log.Error("Error opening file:", err)
 		return "", err
