@@ -9,15 +9,15 @@ files:
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies.sh # Install dependencies script
-      timeout: 1200
+      timeout: 600
       runas: root
 
   AfterInstall:
     - location: scripts/setup_services.sh       # Set up systemd services
-      timeout: 2400
+      timeout: 1200
       runas: root
 
   ApplicationStart:
     - location: scripts/start_services.sh       # Start the services
-      timeout: 1200
+      timeout: 600
       runas: root
