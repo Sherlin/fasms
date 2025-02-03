@@ -18,7 +18,7 @@ Description=Golang HTTP Server
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/go run /home/ec2-user/backend/cmd/main.go
+ExecStart=./fasms_exe
 Restart=always
 User=ec2-user
 WorkingDirectory=/home/ec2-user/backend
