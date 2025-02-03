@@ -10,7 +10,7 @@ sudo chown -R ec2-user: /home/ec2-user/backend
 sudo chmod 0755 /home/ec2-user/backend/fasms_exe
 # Ensure backend dependencies are ready (Go modules)
 cd /home/ec2-user/backend
-go mod tidy
+#go mod tidy
 
 # Create backend systemd service
 cat <<EOF | sudo tee /etc/systemd/system/backend.service
@@ -19,7 +19,7 @@ Description=Golang HTTP Server
 After=network.target
 
 [Service]
-ExecStart=./fasms_exe
+ExecStart=/home/ec2-user/backend/fasms_exe
 Restart=always
 User=ec2-user
 WorkingDirectory=/home/ec2-user/backend
