@@ -23,6 +23,7 @@ ExecStart=/home/ec2-user/backend/fasms_exe
 Restart=always
 User=ec2-user
 WorkingDirectory=/home/ec2-user/backend
+RestartSec=90
 
 [Install]
 WantedBy=multi-user.target
