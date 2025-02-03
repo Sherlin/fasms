@@ -24,6 +24,7 @@ Restart=always
 User=ec2-user
 WorkingDirectory=/home/ec2-user/backend
 RestartSec=90
+EnvironmentFile=/home/ec2-user/.bash_profile
 
 [Install]
 WantedBy=multi-user.target
