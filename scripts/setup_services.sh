@@ -2,9 +2,7 @@
 
 # Install frontend dependencies
 sudo chown -R ec2-user: /home/ec2-user/frontend
-#cd /home/ec2-user/frontend
-#npm install --legacy-peer-deps
-#npm run build
+cp -r /home/ec2-user/frontend/build /var/www/html/
 
 sudo chown -R ec2-user: /home/ec2-user/backend
 sudo chmod 0755 /home/ec2-user/backend/fasms_exe
