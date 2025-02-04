@@ -56,7 +56,7 @@ func NewServer(cfg *config.Config) *Server {
 	// Create HTTP server
 	httpServer := &http.Server{
 		Addr:         fmt.Sprintf(":%s", cfg.Port),
-		Handler:      corsHandler(router),
+		Handler:      loggingMiddleware(corsHandler(router)),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  60 * time.Second,
@@ -64,7 +64,20 @@ func NewServer(cfg *config.Config) *Server {
 
 	return &Server{httpServer: httpServer}
 }
+func loggingMiddleware(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        start := time.Now()
+        log.WithFields(log.Fields{
+            "method":     r.Method,
+            "path":       r.URL.Path,
+            "remoteAddr": r.RemoteAddr,
+            "duration":   time.Since(start),
+            "contentLength": r.ContentLength,
+        }).Info("Request received")
 
+        next.ServeHTTP(w, r)
+    })
+}
 // Run starts the server.
 func (s *Server) Run() error {
 	return s.httpServer.ListenAndServe()
