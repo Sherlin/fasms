@@ -16,7 +16,7 @@ export interface Applicant {
 
 // Fetch all applicants
 export const getApplicants = async (): Promise<Applicant[]> => {
-    const response = await api.get("/applicants/min");
+    const response = await api.get("/applicants");
     console.log(response.data);
     return response.data;
 };
