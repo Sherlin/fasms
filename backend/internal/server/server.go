@@ -30,7 +30,7 @@ func NewServer(cfg *config.Config) *Server {
 
 	router := mux.NewRouter()
 	corsHandler := h.CORS(
-		h.AllowedOrigins([]string{"http://localhost:3000"}), // Update allowed origins as needed
+		h.AllowedOrigins([]string{"http://localhost:3000","https://fasms.moms-confession.com:3000"}), // Update allowed origins as needed
 		h.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),                    // Allow required HTTP methods
 		h.AllowedHeaders([]string{"Content-Type", "Authorization"}),                              // Allow necessary headers
 		h.AllowCredentials(),                                                                    // Allow cookies/auth headers
